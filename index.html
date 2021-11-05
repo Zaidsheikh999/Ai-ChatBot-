@@ -5,33 +5,193 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='index.css'>
     <script src='main.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
 </head>
 <body>
     
-    Enter city: <input id="cityName" type="text">
+    <div class="form">
+        
+        <div class="subtitle">create user</div>
 
-    <button onclick="getweather()">Check</button>
 
-    <p id="result"></p>
+        <div class="input-container ic1">
+          <input id="1" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="1" class="placeholder">Name</label>
+        </div>
 
-    <script>
-        function getweather(){
-            const cityName =document.getElementById("cityName").value
-            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=363a0329911c1b074081245aae1023c3&units=metric`)
 
-            .then(function (response) {
-                    console.log(response);
-                    console.log(response.data.main.temp);
+        <div class="input-container ic2">
+          <input id="2" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="2" class="placeholder">Email</label>
+        </div>
 
-                    document.getElementById("result").innerText = response.data.main.temp;
-                })
+
+        <div class="input-container ic2">
+          <input id="3" class="input" type="text" placeholder=" " />
+          <div class="cut cut-short"></div>
+          <label for="3" class="placeholder">Address</label>/>
+        </div>
+
+
+        <a onclick="set_user()" href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Submit
+        </a>
+
+      </div>
+
+
+      <div class="form">
+
+
+        <div class="subtitle">EDIT / DELETE USER</div>
+
+        <div class="input-container ic1">
+            <input id="4" class="input" type="text" placeholder=" " />
+            <div class="cut"></div>
+            <label for="id" class="placeholder">Id</label>
+          </div>
+
+
+        <div class="input-container ic1">
+          <input id="5" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="5" class="placeholder">Name</label>
+        </div>
+
+
+        <div class="input-container ic2">
+          <input id="6" class="input" type="text" placeholder=" " />
+          <div class="cut"></div>
+          <label for="6" class="placeholder">Email</label>
+        </div>
+
+
+        <div class="input-container ic2">
+          <input id="7" class="input" type="text" placeholder=" " />
+          <div class="cut cut-short"></div>
+          <label for="7" class="placeholder">Address</label>/>
+        </div>
+
+
+        
+
+        <b onclick="update_user()" href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            EDIT
+        </b>
+
+
+        <b onclick="delete_user()" href="#">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            DELETE
+        </b>
+
+        <table id="form1" >
+            <thead>
+                <tr>
+                
+                    <th scope="col" style="font-size: 30px; text-decoration: underline;">Name</th>
+                    <th scope="col" style="font-size: 30px; text-decoration: underline;">Email</th>
+                    <th scope="col" style="font-size: 30px; text-decoration: underline;">Address</th>
+                </tr>
+            </thead>
+            
+            <tbody class="table" >
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+       
+       </div>
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<Script >
+    
+
+get_user()
+function get_user(){
+   
+
+    axios.get("https://zaid-server-2.herokuapp.com/users")
+    .then(function(response){
+       console.log(response)
+       document.getElementsByClassName('table')[0].innerHTML = response.data.map(user => `</td><td>${user.name}</td><td>${user.email}</td><td>${user.address}</td></tr>`).join('');
+    })  
+    .catch(function (response){
+        console.log(response)   
+    
+    })
+}
+   
+function set_user(){
+    var n=document.getElementById("1").value
+    var e=document.getElementById("2").value    
+    var ad=document.getElementById("3").value
+    axios({
+        method: 'post',
+        url: 'https://zaid-server-2.herokuapp.com/user',
+        data: {
+          name: n,
+          email: e,
+          address:ad
         }
-    </script>
+      });
+}
+
+function delete_user(){
+  var id=document.getElementById("4").value
+  var url='https://zaid-server-2.herokuapp.com/user/'+id
+  console.log(url)
+  axios.delete(url)
+  .then(function(response){
+    console.log(response)
+  })
+}
+
+function update_user(){
+  var id=document.getElementById("4").value
+  var n=document.getElementById("5").value
+  var e=document.getElementById("6").value
+  var ad=document.getElementById("7").value
+  axios({
+    method: 'put',
+    url:"https://zaid-server-2.herokuapp.com/user/"+id,
+  data:{
+      name : n,
+      email: e,
+      address: ad}
+    })
+}
+</Script>
 
 
 </body>
