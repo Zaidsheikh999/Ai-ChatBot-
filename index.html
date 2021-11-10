@@ -102,7 +102,7 @@
         <table id="form1" >
             <thead>
                 <tr>
-                
+                    <th scope="col" style="font-size: 30px; text-decoration: underline;">Id</th>
                     <th scope="col" style="font-size: 30px; text-decoration: underline;">Name</th>
                     <th scope="col" style="font-size: 30px; text-decoration: underline;">Email</th>
                     <th scope="col" style="font-size: 30px; text-decoration: underline;">Address</th>
@@ -111,6 +111,7 @@
             
             <tbody class="table" >
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -144,7 +145,7 @@ function get_user(){
     axios.get("https://zaid-server-2.herokuapp.com/users")
     .then(function(response){
        console.log(response)
-       document.getElementsByClassName('table')[0].innerHTML = response.data.map(user => `</td><td>${user.name}</td><td>${user.email}</td><td>${user.address}</td></tr>`).join('');
+       document.getElementsByClassName('table')[0].innerHTML = response.data.map(user => `<tr><td>${user._id}</td><td>${user.name}</td><td>${user.email}</td><td>${user.address}</td></tr>`).join('');
     })  
     .catch(function (response){
         console.log(response)   
